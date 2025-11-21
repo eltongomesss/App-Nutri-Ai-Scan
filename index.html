@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NutriFit AI</title>
+    
+    <!-- PWA Settings -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#10b981">
+    
+    <!-- Tailwind & Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
+                    colors: {
+                        'fit-green': '#10b981',
+                        'fit-dark': '#1f2937',
+                        'fit-orange': '#f97316',
+                        'fit-lime': '#84cc16',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'float-slow': 'float 8s ease-in-out 1s infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-20px) rotate(5deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { overscroll-behavior-y: none; }
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-gray-100 via-white to-gray-200 flex flex-col items-center justify-center p-4 relative overflow-hidden">
+
+    <!-- Elementos Decorativos de Fundo (Apenas Halteres) -->
+    
+    <!-- Haltere 1 (Esquerda Superior) -->
+    <div class="absolute top-10 left-5 opacity-10 w-24 h-24 text-fit-dark animate-float pointer-events-none transform -rotate-12">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.57 14.86L22 13.43L20.57 12L17 15.57L8.43 7L12 3.43L10.57 2L9.14 3.43L7.71 2L5.57 4.14L4.14 2.71L2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57L3.43 12L7 8.43L15.57 17L12 20.57L13.43 22l1.43-1.43L16.29 22l2.14-2.14l1.43 1.43l1.43-1.43L22 16.29z"/></svg>
+    </div>
+    
+    <!-- Haltere 2 (Direita Inferior - Onde estava a maçã) -->
+    <div class="absolute bottom-20 right-5 opacity-10 w-32 h-32 text-fit-dark animate-float-delayed pointer-events-none transform rotate-45">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6,5h2v14H6V5z M16,5h2v14h-2V5z M4,7H2v10h2V7z M22,7h-2v10h2V7z M10,9h4v6h-4V9z"/></svg>
+    </div>
+    
+    <!-- Haltere 3 (Direita Superior - Onde estava a folha) -->
+    <div class="absolute top-1/4 right-10 opacity-5 w-20 h-20 text-fit-dark animate-float-slow pointer-events-none transform rotate-90">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.57 14.86L22 13.43L20.57 12L17 15.57L8.43 7L12 3.43L10.57 2L9.14 3.43L7.71 2L5.57 4.14L4.14 2.71L2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57L3.43 12L7 8.43L15.57 17L12 20.57L13.43 22l1.43-1.43L16.29 22l2.14-2.14l1.43 1.43l1.43-1.43L22 16.29z"/></svg>
+    </div>
+
+    <!-- Haltere 4 (Esquerda Inferior - Extra) -->
+    <div class="absolute bottom-10 left-10 opacity-5 w-16 h-16 text-fit-dark animate-float pointer-events-none transform -rotate-45">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6,5h2v14H6V5z M16,5h2v14h-2V5z M4,7H2v10h2V7z M22,7h-2v10h2V7z M10,9h4v6h-4V9z"/></svg>
+    </div>
+
+    <!-- Card Principal -->
+    <div class="w-full max-w-md glass-panel rounded-3xl shadow-2xl shadow-gray-400/20 overflow-hidden relative z-10">
+        
+        <!-- Header -->
+        <div class="bg-fit-dark text-white p-8 rounded-b-3xl shadow-lg relative overflow-hidden">
+            <!-- Background shapes do header mais neutros/fitness -->
+            <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-gray-600 rounded-full opacity-20 blur-2xl"></div>
+            <div class="absolute bottom-0 left-0 -mb-4 -ml-4 w-20 h-20 bg-gray-500 rounded-full opacity-20 blur-xl"></div>
+            
+            <div class="relative z-10 flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-extrabold tracking-tight text-white">
+                        NutriFit <span class="text-fit-lime">Pro</span>
+                    </h1>
+                    <p class="text-gray-400 text-xs font-medium uppercase tracking-widest mt-1">Macro Tracker</p>
+                </div>
+                <div class="bg-white/10 p-2 rounded-xl backdrop-blur-md border border-white/10">
+                    <!-- Ícone de Raio/Energia no header -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-fit-lime" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-6">
+            <!-- Área de Upload -->
+            <div class="mb-6">
+                <label class="block text-sm font-bold text-gray-700 mb-2 ml-1">Sua Refeição</label>
+                <div class="relative group cursor-pointer">
+                    <input type="file" id="file-upload" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer" onchange="previewImage(event)">
+                    
+                    <div id="preview-container" class="border-2 border-dashed border-gray-300 group-hover:border-fit-dark transition-all duration-300 rounded-2xl h-64 bg-gray-50 flex flex-col items-center justify-center overflow-hidden relative shadow-inner">
+                        
+                        <div id="placeholder-content" class="flex flex-col items-center p-4 text-center transition-all duration-300 group-hover:scale-105">
+                            <div class="bg-gray-200 p-4 rounded-full mb-3 text-fit-dark">
+                                <!-- Ícone de Câmera -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </div>
+                            <p class="text-sm font-bold text-gray-600">Focar na Dieta</p>
+                            <p class="text-xs text-gray-400 mt-1">Tire foto do prato</p>
+                        </div>
+
+                        <img id="image-preview" class="hidden absolute inset-0 w-full h-full object-cover z-10" alt="Pré-visualização">
+                        
+                        <div id="image-overlay" class="hidden absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10 flex items-end justify-center pb-4">
+                            <p class="text-white text-xs font-medium bg-black/30 px-3 py-1 rounded-full backdrop-blur-sm">Trocar foto</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botão de Ação -->
+            <button id="analyze-button" onclick="analyzeDish()" disabled 
+                class="w-full py-4 px-6 bg-gradient-to-r from-fit-dark to-gray-900 text-white font-bold rounded-xl shadow-lg shadow-gray-500/30
+                hover:shadow-xl hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:scale-100 disabled:cursor-not-allowed transition-all flex items-center justify-center space-x-3 uppercase tracking-wide text-sm">
+                <span>Calcular Macros</span>
+                <!-- Ícone de Haltere no botão -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-fit-lime" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20.57 14.86L22 13.43L20.57 12L17 15.57L8.43 7L12 3.43L10.57 2L9.14 3.43L7.71 2L5.57 4.14L4.14 2.71L2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57L3.43 12L7 8.43L15.57 17L12 20.57L13.43 22l1.43-1.43L16.29 22l2.14-2.14l1.43 1.43l1.43-1.43L22 16.29z"/>
+                </svg>
+            </button>
+
+            <!-- Loading -->
+            <div id="loading-indicator" class="hidden mt-6">
+                <div class="flex items-center justify-center space-x-2 mb-3">
+                    <div class="w-2 h-2 bg-fit-lime rounded-full animate-bounce"></div>
+                    <div class="w-2 h-2 bg-fit-lime rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                    <div class="w-2 h-2 bg-fit-lime rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                </div>
+                <p class="text-center text-xs font-semibold text-gray-400 uppercase tracking-wider animate-pulse">Analisando...</p>
+            </div>
+
+            <!-- Erro -->
+            <div id="error-message" class="hidden mt-4 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-red-700 font-medium">Erro na análise</p>
+                        <p id="error-text" class="text-xs text-red-500 mt-1"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resultados -->
+            <div id="results-section" class="hidden mt-8 animate-fade-in border-t border-dashed border-gray-200 pt-6">
+                
+                <!-- Cards de Macro -->
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <!-- Calorias -->
+                    <div class="bg-gray-100 p-4 rounded-2xl border border-gray-200 relative overflow-hidden">
+                         <div class="absolute right-0 top-0 w-12 h-12 bg-gray-300 rounded-full -mr-4 -mt-4 opacity-30"></div>
+                        <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Energia</p>
+                        <div class="flex items-baseline">
+                            <span class="text-3xl font-extrabold text-fit-dark" id="total-calories">0</span>
+                            <span class="text-xs font-bold text-gray-500 ml-1">kcal</span>
+                        </div>
+                    </div>
+
+                    <!-- Proteínas -->
+                    <div class="bg-fit-dark p-4 rounded-2xl border border-gray-800 relative overflow-hidden text-white">
+                        <div class="absolute right-0 top-0 w-12 h-12 bg-fit-lime rounded-full -mr-4 -mt-4 opacity-20"></div>
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Proteína</p>
+                        <div class="flex items-baseline">
+                            <span class="text-3xl font-extrabold text-fit-lime" id="total-protein">0</span>
+                            <span class="text-xs font-bold text-gray-400 ml-1">g</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumo IA -->
+                <div class="bg-gray-50 rounded-xl p-4 border-l-4 border-fit-dark mb-6">
+                    <p class="text-xs font-bold text-gray-400 uppercase mb-2 flex items-center">
+                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path></svg>
+                        Avaliação
+                    </p>
+                    <p id="summary-text" class="text-sm text-gray-600 leading-relaxed"></p>
+                </div>
+
+                <!-- Lista Detalhada -->
+                <h3 class="text-sm font-bold text-gray-800 mb-3 flex items-center">
+                    <span class="w-2 h-2 bg-fit-lime rounded-full mr-2"></span>
+                    Itens Identificados
+                </h3>
+                <div id="detailed-list" class="space-y-2">
+                    <!-- Itens JS -->
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =================================================================
+        // ⚠️ IMPORTANTE: COLOQUE SUA CHAVE DO GOOGLE GEMINI AQUI
+        // =================================================================
+        // Pegue sua chave grátis em: https://aistudio.google.com/app/apikey
+        const apiKey = "AIzaSyBKYe-E_0sGUVSiYQa1CgnmB4QuGkZlQsY"; 
+        // =================================================================
+
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        
+        let imageBase64 = null;
+        const analyzeButton = document.getElementById('analyze-button');
+        const imagePreview = document.getElementById('image-preview');
+        const placeholderContent = document.getElementById('placeholder-content');
+        const previewContainer = document.getElementById('preview-container');
+        const imageOverlay = document.getElementById('image-overlay');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const resultsSection = document.getElementById('results-section');
+        const errorMessageDiv = document.getElementById('error-message');
+        const errorText = document.getElementById('error-text');
+
+        function toBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = (error) => reject(error);
+            });
+        }
+
+        window.previewImage = async function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                hideResults();
+                imagePreview.src = URL.createObjectURL(file);
+                imagePreview.classList.remove('hidden');
+                imageOverlay.classList.remove('hidden');
+                placeholderContent.classList.add('hidden');
+                previewContainer.classList.remove('border-dashed');
+                previewContainer.classList.add('border-solid');
+                previewContainer.classList.add('border-white');
+                
+                imageBase64 = await toBase64(file);
+                analyzeButton.disabled = false;
+            }
+        }
+
+        function hideResults() {
+            resultsSection.classList.add('hidden');
+            errorMessageDiv.classList.add('hidden');
+        }
+
+        function showLoading(isLoading) {
+            analyzeButton.disabled = isLoading || !imageBase64;
+            loadingIndicator.classList.toggle('hidden', !isLoading);
+            
+            if (isLoading) {
+                resultsSection.classList.add('hidden');
+                errorMessageDiv.classList.add('hidden');
+                analyzeButton.classList.add('opacity-75', 'cursor-wait');
+            } else {
+                analyzeButton.classList.remove('opacity-75', 'cursor-wait');
+            }
+        }
+
+        function displayResults(data) {
+            // Animação simples de números (opcional, mas legal)
+            document.getElementById('total-calories').textContent = data.totalCaloriesKcal?.toFixed(0) || 0;
+            document.getElementById('total-protein').textContent = data.totalProteinGrams?.toFixed(1) || 0;
+            document.getElementById('summary-text').textContent = data.summary;
+
+            const detailedList = document.getElementById('detailed-list');
+            detailedList.innerHTML = '';
+            data.detailedBreakdown.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'flex justify-between items-center p-3 bg-white rounded-xl border border-gray-100 shadow-sm mb-2';
+                itemDiv.innerHTML = `
+                    <div class="flex flex-col">
+                        <span class="text-sm font-bold text-gray-700">${item.foodItem}</span>
+                        <span class="text-xs text-gray-400 font-medium">${item.estimatedPortion}</span>
+                    </div>
+                    <div class="text-right flex flex-col items-end">
+                        <span class="text-xs font-bold text-gray-800 bg-gray-100 px-2 py-0.5 rounded">${item.caloriesKcal} kcal</span>
+                        <span class="text-[10px] text-fit-lime font-bold mt-1 bg-fit-dark px-1.5 py-0.5 rounded-sm">${item.proteinGrams}g prot</span>
+                    </div>
+                `;
+                detailedList.appendChild(itemDiv);
+            });
+            resultsSection.classList.remove('hidden');
+            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        window.analyzeDish = async function() {
+            if (apiKey.includes("COLE_SUA_CHAVE")) {
+                alert("Ops! Você esqueceu de colocar sua Chave de API no código. Veja a linha 175.");
+                return;
+            }
+            if (!imageBase64) return;
+            showLoading(true);
+
+            const prompt = "Analise esta foto de comida como um nutricionista esportivo focado em hipertrofia. Identifique alimentos, estime porções, calorias e proteínas totais. Retorne JSON estrito.";
+            const payload = {
+                contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: "image/jpeg", data: imageBase64 } }] }],
+                generationConfig: { responseMimeType: "application/json", responseSchema: {
+                    type: "OBJECT", properties: {
+                        summary: { type: "STRING" }, totalCaloriesKcal: { type: "NUMBER" }, totalProteinGrams: { type: "NUMBER" },
+                        detailedBreakdown: { type: "ARRAY", items: { type: "OBJECT", properties: { foodItem: { "type": "STRING" }, estimatedPortion: { "type": "STRING" }, caloriesKcal: { "type": "NUMBER" }, proteinGrams: { "type": "NUMBER" } } } }
+                    }
+                } }
+            };
+
+            try {
+                const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if (!response.ok) throw new Error(`Erro: ${response.status}`);
+                const result = await response.json();
+                const data = JSON.parse(result.candidates[0].content.parts[0].text);
+                displayResults(data);
+            } catch (error) {
+                console.error(error);
+                document.getElementById('error-text').textContent = "Não foi possível analisar. Verifique sua chave API ou tente outra foto.";
+                errorMessageDiv.classList.remove('hidden');
+            } finally { showLoading(false); }
+        }
+    </script>
+</body>
+</html>
